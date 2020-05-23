@@ -1,0 +1,57 @@
+version: '2'
+services:
+  app:
+    build:
+      context: ./docker/app
+      dockerfile: Dockerfile
+    image: promote/app
+    ports:
+     - "${APP_PORT}:80"
+    environment:
+      CONTAINER_ENV: "${APP_ENV}"
+      XDEBUG_HOST: "${XDEBUG_HOST}"
+      WWWUSER: "${WWWUSER}"
+    volumes:
+     - .:/var/www/html
+    networks:
+     - promote
+  node:
+    build:
+      context: ./docker/node
+      dockerfile: Dockerfile
+      args:
+        uid: "${WWWUSER}"
+    image: promote/node
+    user: node
+    volumes:
+     - .:/var/www/html
+    networks:
+     - promote
+  mysql:
+    image: mysql:5.7
+    ports:
+     - "${DB_PORT}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_DATABASE: "${DB_DATABASE}"
+      MYSQL_USER: "${DB_USERNAME}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+     - promotemysql:/var/lib/mysql
+    networks:
+     - promote
+  redis:
+    image: redis:alpine
+    volumes:
+     - promoteredis:/data
+    networks:
+     - promote
+networks:
+  promote:
+    driver: "bridge"
+volumes:
+  promotemysql:
+    driver: "local"
+  promoteredis:
+    driver: "local"
