@@ -16,11 +16,11 @@ $factory->define(Transaction::class, function (Faker $faker) {
 
     $amount = $faker->numberBetween(10, 400);
 
-    $comment->highlight_expire_at = Carbon::now()->addMinutes($amount);
+    $comment->highlight_expires_at = Carbon::now()->addMinutes($amount);
     $comment->save();
 
     return [
-        'type' => TransactionType::OUT,
+        'type' => TransactionType::BALANCEOUT,
         'amount' => $faker->numberBetween(10, 400),
         'wallet_id' => $user->wallet->id,
         'comment_id' => $comment->id,

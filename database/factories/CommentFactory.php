@@ -11,9 +11,9 @@ use Faker\Generator as Faker;
 $factory->define(Comment::class, function (Faker $faker) {
 
     $post = Post::with('user')->inRandomOrder()->first();
-    $user = $post->user->type === UserType::_PUBLIC
-        ? User::all()->where('type', '!=',  UserType::_PUBLIC)->random()
-        : User::all()->random();
+    $user = $post->user->subscriber === true
+        ? User::all()->random()
+        : User::all()->where('subscriber', true)->random();
 
     return [
         'content' => $faker->paragraph(),
