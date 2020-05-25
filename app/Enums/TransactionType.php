@@ -4,14 +4,16 @@ namespace App\Enums;
 
 class TransactionType
 {
-    const IN = 'in';
-    const OUT = 'out';
+    const BALANCEIN = 'balancein';
+    const BALANCEOUT = 'balanceout';
+    const SERVER = 'server';
 
     public static function getAll()
     {
         return [
-            self::IN,
-            self::OUT,
+            self::BALANCEIN,
+            self::BALANCEOUT,
+            self::SERVER,
         ];
     }
 }

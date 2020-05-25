@@ -24,7 +24,7 @@ class Transaction extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'id', 'amount', 'type',
+        'id', 'amount', 'type', 'comment_id', 'wallet_id',
     ];
 
     public function wallet()
@@ -35,6 +35,11 @@ class Transaction extends Model
     public function comment()
     {
         return $this->belongsTo('App\Comment');
+    }
+
+    public function child()
+    {
+        return $this->hasOne('App\Transaction', 'parent_id');
     }
 
 }

@@ -18,10 +18,9 @@ class CreateTransactionsTable extends Migration
             $table->unsignedBigInteger('wallet_id');
             $table->unsignedBigInteger('comment_id')->nullable();
             $table->uuid('parent_id')->nullable();
-            $table->enum('type', ['in', 'out']);
-            $table->float('amount');
+            $table->enum('type', ['balancein', 'balanceout', 'server']);
+            $table->integer('amount');
             $table->timestamps();
-
 
             $table->foreign('wallet_id')->references('id')->on('wallets');
             $table->foreign('comment_id')->references('id')->on('comments');
