@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     protected $fillable = [
-        'content'
+        'user_id', 'content', 'highlight_expires_at'
     ];
 
     public function user()
@@ -25,4 +25,8 @@ class Comment extends Model
         return $this->hasOne('App\Transaction');
     }
 
+    public function getIsHighlightedAttribute()
+    {
+        return null !== $this->highlight_expires_at;
+    }
 }
