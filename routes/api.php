@@ -14,6 +14,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('/', function () {
+    return 'Welcome to the Promote-API!';
+})->name('welcome-api');
+
+Route::group(['prefix' => 'post'], function () {
+    Route::get('{post}/comments', 'CommentController@index');
+
+    Route::group(['middleware' => 'auth'], function () {
+        Route::post('{post}/comment', 'CommentController@store');
+        Route::delete('{post}/comment/{comment}/', 'CommentController@destroy');
+    });
+});
+
+Route::group(['prefix' => 'user'], function () {
+    Route::get('{user}/comments', 'UserController@listComments');
+    Route::get('{user}/notifications', 'UserController@notifications');
 });
