@@ -2,9 +2,10 @@
 
 namespace App;
 
+use Carbon\Carbon;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -13,6 +14,7 @@ class User extends Authenticatable
     protected static function boot()
     {
         parent::boot();
+
         User::created(function ($model) {
             Wallet::create([
                 'user_id' => $model->id,
@@ -26,7 +28,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'type',
+        'name', 'email', 'password', 'subscriber',
     ];
 
     /**
@@ -61,4 +63,17 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Post');
     }
+
+    public function isCommentLimit()
+    {
+
+        $limitPerMinute = config('customs.comments.limitPerMinute');
+
+        return $this->comments()
+            ->latest()
+            ->take($limitPerMinute)
+            ->whereBetween('created_at', [Carbon::now()->subMinute(), Carbon::now()])
+            ->count() >= $limitPerMinute;
+    }
+
 }
