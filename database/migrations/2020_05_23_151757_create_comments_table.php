@@ -15,10 +15,10 @@ class CreateCommentsTable extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->string('content');
+            $table->longText('content');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('post_id');
-            $table->dateTime('highlight_expire_at')->nullable();
+            $table->dateTime('highlight_expires_at')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
