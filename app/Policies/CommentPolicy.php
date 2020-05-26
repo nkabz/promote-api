@@ -11,9 +11,9 @@ class CommentPolicy
 {
     use HandlesAuthorization;
 
-    public function create(User $user, Post $post, $coinsAmount)
+    public function create(User $user, Post $post, int $coinsAmount): bool
     {
-        if (! $user->isCommentLimit() || $coinsAmount) {
+        if (! $user->canPostMoreComments()) {
             return false;
         }
 
@@ -21,10 +21,10 @@ class CommentPolicy
             return true;
         }
 
-        return $user->subscriber;
+        return $user->subscriber || $coinsAmount;
     }
 
-    public function delete(User $user, Comment $comment)
+    public function delete(User $user, Comment $comment): bool
     {
         return $user->id === $comment->user_id || $user->id === $comment->post->user_id;
     }
