@@ -64,7 +64,16 @@ class User extends Authenticatable
         return $this->hasMany('App\Post');
     }
 
-    public function isCommentLimit()
+    public function availableNotifications()
+    {
+        return $this->notifications()
+            ->where(function ($query) {
+                $query->whereNull('read_at')
+                    ->orWhere('read_at', '>', Carbon::now()->subHour());
+            });
+    }
+
+    public function canPostMoreComments()
     {
 
         $limitPerMinute = config('customs.comments.limitPerMinute');
@@ -73,7 +82,7 @@ class User extends Authenticatable
             ->latest()
             ->take($limitPerMinute)
             ->whereBetween('created_at', [Carbon::now()->subMinute(), Carbon::now()])
-            ->count() >= $limitPerMinute;
+            ->count() < $limitPerMinute;
     }
 
 }

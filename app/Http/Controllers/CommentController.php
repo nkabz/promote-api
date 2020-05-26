@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use App\Comment;
-use Illuminate\Http\Request;
 use App\Services\CommentService;
 use App\Http\Resources\CommentResource;
 use App\Http\Requests\StoreCommentRequest;
+use App\Notifications\CommentCreated;
 
 class CommentController extends Controller
 {
@@ -35,6 +35,8 @@ class CommentController extends Controller
         $comment = $coinsAmount
             ? $this->service->createHighlightComment($user, $post, $content, $coinsAmount)
             : $this->service->createComment($user, $post, $content);
+
+        $post->user->notify(new CommentCreated($user));
 
         return new CommentResource($comment);
     }
