@@ -9,9 +9,9 @@ class UserController extends Controller
 {
     public function notifications(Request $request)
     {
-        $notifications = $request->user()->unreadNotifications;
+        $notifications = $request->user()->availableNotifications;
 
-        $notifications->markAsRead($notifications);
+        $notifications->markAsRead();
 
         return NotificationResource::collection($notifications);
     }
