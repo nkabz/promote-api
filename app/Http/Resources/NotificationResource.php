@@ -16,7 +16,7 @@ class NotificationResource extends JsonResource
     {
         return [
             'notification' => $this->data,
-            'created_at' => $this->created_at,
+            'createAt' => $this->created_at,
         ];
     }
 }

@@ -16,9 +16,9 @@ class CommentResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id' => $this->user->id,
+            'userId' => $this->user->id,
             'login' => $this->user->email,
-            'userIsSubscriber' => (Boolean) $this->user->subscriber,
+            'userIsSubscriber' => (bool) $this->user->subscriber,
             'isHighlighted' => $this->is_highlighted,
             'createdAt' => $this->created_at,
             'content' => $this->content,
