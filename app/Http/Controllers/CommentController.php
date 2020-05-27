@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Services\CommentService;
 use App\Http\Resources\CommentResource;
 use App\Http\Requests\StoreCommentRequest;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class CommentController extends Controller
 {
@@ -17,14 +19,16 @@ class CommentController extends Controller
         $this->service = $service;
     }
 
-    public function index(Request $request, Post $post)
+    public function index(Request $request, Post $post): ResourceCollection
     {
-        $comments = $this->service->getCommentsByPost($post, $request);
+        $page = $request->has('page') ? $request->get('page') : 1;
+
+        $comments = $this->service->getCommentsByPost($post, $page);
 
         return CommentResource::collection($comments);
     }
 
-    public function store(StoreCommentRequest $request, Post $post)
+    public function store(StoreCommentRequest $request, Post $post): CommentResource
     {
         $user = $request->user();
         $content = $request->get('content');
@@ -39,7 +43,7 @@ class CommentController extends Controller
         return new CommentResource($comment);
     }
 
-    public function destroy(Post $post, Comment $comment)
+    public function destroy(Post $post, Comment $comment): JsonResponse
     {
         $this->authorize('delete', $comment);
 

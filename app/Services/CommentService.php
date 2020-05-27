@@ -6,17 +6,15 @@ use App\Post;
 use App\User;
 use App\Comment;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use App\Enums\TransactionType;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 
 class CommentService
 {
-    public function getCommentsByPost(Post $post, Request $request)
+    public function getCommentsByPost(Post $post, int $page): LengthAwarePaginator
     {
-        $page = $request->has('page') ? $request->get('page') : 1;
-
         return Cache::remember("post.comments.{$post->id}.page.{$page}", now()->addMinutes(config('customs.cache.ttl')), function () use ($post) {
             return $post->comments()
                 ->mostRecentActives()
@@ -25,7 +23,7 @@ class CommentService
         });
     }
 
-    public function createComment(User $user, Post $post, string $content, int $coinsAmount): Comment
+    public function createComment(User $user, Post $post, string $content, ?int $coinsAmount): Comment
     {
         if ($coinsAmount) {
             return $this->createHighlightComment($user, $post, $content, $coinsAmount);
