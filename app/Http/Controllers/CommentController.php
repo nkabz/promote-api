@@ -21,7 +21,7 @@ class CommentController extends Controller
 
     public function index(Request $request, Post $post): ResourceCollection
     {
-        $page = $request->has('page') ? $request->get('page') : 1;
+        $page = $request->input('page', 1);
 
         $comments = $this->service->getCommentsByPost($post, $page);
 

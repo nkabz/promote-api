@@ -20,7 +20,7 @@ class UserController extends Controller
 
     public function comments(Request $request, User $user): ResourceCollection
     {
-        $page = $request->has('page') ? $request->get('page') : 1;
+        $page = $request->input('page', 1);
 
         $comments = $this->service->getUserComments($user, $page);
 
