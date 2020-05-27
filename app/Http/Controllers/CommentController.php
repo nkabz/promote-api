@@ -6,7 +6,6 @@ use App\Post;
 use App\Comment;
 use Illuminate\Http\Request;
 use App\Services\CommentService;
-use App\Notifications\CommentCreated;
 use App\Http\Resources\CommentResource;
 use App\Http\Requests\StoreCommentRequest;
 
