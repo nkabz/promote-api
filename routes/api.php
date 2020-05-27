@@ -28,6 +28,7 @@ Route::group(['prefix' => 'post'], function () {
 });
 
 Route::group(['prefix' => 'user'], function () {
-    Route::get('{user}/comments', 'UserController@comments')->middleware('auth');
-    Route::get('{user}/notifications', 'UserController@notifications');
+    Route::get('{user}/comments', 'UserController@comments');
+    Route::get('notifications', 'UserController@notifications')
+        ->middleware('auth');
 });
