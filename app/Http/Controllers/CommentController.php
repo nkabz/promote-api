@@ -8,6 +8,7 @@ use App\Services\CommentService;
 use App\Http\Resources\CommentResource;
 use App\Http\Requests\StoreCommentRequest;
 use App\Notifications\CommentCreated;
+use Carbon\Carbon;
 
 class CommentController extends Controller
 {
@@ -19,7 +20,15 @@ class CommentController extends Controller
 
     public function index(Post $post)
     {
-        return CommentResource::collection($post->comments()->paginate());
+
+
+        $comments = $post
+            ->comments()
+            ->mostrecentactives()
+            ->latest()
+            ->paginate();
+
+        return CommentResource::collection($comments);
     }
 
     public function store(StoreCommentRequest $request, Post $post)
