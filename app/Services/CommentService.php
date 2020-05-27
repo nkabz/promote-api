@@ -11,8 +11,12 @@ use Illuminate\Support\Facades\DB;
 
 class CommentService
 {
-    public function createComment(User $user, Post $post, string $content): Comment
+    public function createComment(User $user, Post $post, string $content, int $coinsAmount): Comment
     {
+        if ($coinsAmount) {
+            return $this->createHighlightComment($user, $post, $content, $coinsAmount);
+        }
+
         return $post->comments()->create([
             'user_id' => $user->id,
             'content' => $content,

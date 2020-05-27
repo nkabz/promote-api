@@ -41,9 +41,7 @@ class CommentController extends Controller
             Comment::class, $post, $coinsAmount
         ]);
 
-        $comment = $coinsAmount
-            ? $this->service->createHighlightComment($user, $post, $content, $coinsAmount)
-            : $this->service->createComment($user, $post, $content);
+        $comment = $this->service->createComment($user, $post, $content, $coinsAmount);
 
         $post->user->notify(new CommentCreated($user));
 
