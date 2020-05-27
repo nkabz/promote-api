@@ -17,5 +17,9 @@ return [
 
     'comments' => [
         'limitPerMinute' => 5,
+    ],
+
+    'cache' => [
+        'ttl' => 5,
     ]
 ];

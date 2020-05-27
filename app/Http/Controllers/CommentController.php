@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use App\Comment;
+use Illuminate\Http\Request;
 use App\Services\CommentService;
+use App\Notifications\CommentCreated;
 use App\Http\Resources\CommentResource;
 use App\Http\Requests\StoreCommentRequest;
-use App\Notifications\CommentCreated;
-use Carbon\Carbon;
 
 class CommentController extends Controller
 {
@@ -18,15 +18,9 @@ class CommentController extends Controller
         $this->service = $service;
     }
 
-    public function index(Post $post)
+    public function index(Request $request, Post $post)
     {
-
-
-        $comments = $post
-            ->comments()
-            ->mostrecentactives()
-            ->latest()
-            ->paginate();
+        $comments = $this->service->getCommentsByPost($post, $request);
 
         return CommentResource::collection($comments);
     }
@@ -42,8 +36,6 @@ class CommentController extends Controller
         ]);
 
         $comment = $this->service->createComment($user, $post, $content, $coinsAmount);
-
-        $post->user->notify(new CommentCreated($user));
 
         return new CommentResource($comment);
     }

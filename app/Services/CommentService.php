@@ -6,11 +6,25 @@ use App\Post;
 use App\User;
 use App\Comment;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use App\Enums\TransactionType;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 
 class CommentService
 {
+    public function getCommentsByPost(Post $post, Request $request)
+    {
+        $page = $request->has('page') ? $request->get('page') : 1;
+
+        return Cache::remember("post.comments.{$post->id}.page.{$page}", now()->addMinutes(config('customs.cache.ttl')), function () use ($post) {
+            return $post->comments()
+                ->mostRecentActives()
+                ->latest()
+                ->paginate();
+        });
+    }
+
     public function createComment(User $user, Post $post, string $content, int $coinsAmount): Comment
     {
         if ($coinsAmount) {
