@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class NotificationResource extends JsonResource
+class TransactionResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,8 +15,11 @@ class NotificationResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'notification' => $this->data,
-            'createdAt' => $this->created_at,
+            'id' => $this->id,
+            'amount' => $this->amount,
+            'wallet' => [
+                'balance' => $this->wallet->balance,
+            ],
         ];
     }
 }
