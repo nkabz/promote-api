@@ -29,17 +29,17 @@ class Transaction extends Model
 
     public function wallet()
     {
-        return $this->belongsTo('App\Wallet');
+        return $this->belongsTo(Wallet::class);
     }
 
     public function comment()
     {
-        return $this->belongsTo('App\Comment');
+        return $this->belongsTo(Comment::class);
     }
 
     public function child()
     {
-        return $this->hasOne('App\Transaction', 'parent_id');
+        return $this->hasOne(Transaction::class, 'parent_id');
     }
 
 }

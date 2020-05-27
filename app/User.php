@@ -16,9 +16,7 @@ class User extends Authenticatable
         parent::boot();
 
         User::created(function ($model) {
-            Wallet::create([
-                'user_id' => $model->id,
-            ]);
+            $model->wallet()->create();
         });
     }
 
@@ -51,17 +49,17 @@ class User extends Authenticatable
 
     public function wallet()
     {
-        return $this->hasOne('App\Wallet');
+        return $this->hasOne(Wallet::class);
     }
 
     public function comments()
     {
-        return $this->hasMany('App\Comment');
+        return $this->hasMany(Comment::class);
     }
 
     public function posts()
     {
-        return $this->hasMany('App\Post');
+        return $this->hasMany(Post::class);
     }
 
     public function availableNotifications()
