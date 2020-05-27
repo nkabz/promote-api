@@ -13,6 +13,7 @@ class CommentCreated extends Notification
 {
     use Queueable;
 
+    private $message = 'There\'s a new message in your post!';
     protected $user;
 
     public function __construct(User $user)
@@ -41,7 +42,8 @@ class CommentCreated extends Notification
     {
         return (new MailMessage)
                     ->greeting(`Hello {$notifiable->name}!`)
-                    ->subject('Theres a new Comment in your Post')
+                    ->subject($this->message)
+                    ->line($this->message)
                     ->line('Thank you for using the ' . env('APP_NAME') . '!');
     }
 
@@ -55,7 +57,7 @@ class CommentCreated extends Notification
     {
         return [
             'fromUser' => $this->user->name,
-            'message' => 'There\'s a new comment in your post!',
+            'message' => $this->message,
         ];
     }
 }
