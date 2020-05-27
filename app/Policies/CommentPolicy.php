@@ -11,10 +11,10 @@ class CommentPolicy
 {
     use HandlesAuthorization;
 
-    public function create(User $user, Post $post, int $coinsAmount): bool
+    public function create(User $user, Post $post, ?int $coinsAmount)
     {
         if (! $user->canPostMoreComments()) {
-            return false;
+            return $this->deny('Sorry, you are doing this too frequently.', 401);
         }
 
         if ($post->user->subscriber) {
