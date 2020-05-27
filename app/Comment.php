@@ -2,10 +2,19 @@
 
 namespace App;
 
+use App\Notifications\CommentCreated;
 use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
+    protected static function booted()
+    {
+        static::created(function ($model) {
+            $userNotified = $model->post->user;
+            $userNotified->notify(new CommentCreated($model->user));
+        });
+    }
+
     protected $fillable = [
         'user_id', 'content', 'highlight_expires_at'
     ];

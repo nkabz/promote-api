@@ -11,11 +11,9 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    protected static function boot()
+    protected static function booted()
     {
-        parent::boot();
-
-        User::created(function ($model) {
+        static::created(function ($model) {
             $model->wallet()->create();
         });
     }
