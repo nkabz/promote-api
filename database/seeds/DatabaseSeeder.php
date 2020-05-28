@@ -13,7 +13,12 @@ class DatabaseSeeder extends Seeder
     {
         factory('App\User', 15)->create();
         factory('App\Post', 15)->create();
-        factory('App\Comment', 300)->create();
+        $this->factoryWithoutObservers('App\Comment', 300)->create();
         factory('App\Transaction', 10)->create();
+    }
+
+    public function factoryWithoutObservers($class, $amount = 1) {
+        $class::flushEventListeners();
+        return factory($class, $amount);
     }
 }

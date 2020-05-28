@@ -5,7 +5,6 @@
 use App\Post;
 use App\User;
 use App\Comment;
-use App\Enums\UserType;
 use Faker\Generator as Faker;
 
 $factory->define(Comment::class, function (Faker $faker) {

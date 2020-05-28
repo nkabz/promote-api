@@ -4,9 +4,12 @@ namespace App;
 
 use App\Notifications\CommentCreated;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Comment extends Model
 {
+    use SoftDeletes;
+
     protected static function booted()
     {
         static::created(function ($model) {
