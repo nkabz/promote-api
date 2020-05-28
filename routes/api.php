@@ -21,7 +21,7 @@ Route::get('/', function () {
 Route::group(['prefix' => 'post'], function () {
     Route::get('{post}/comments', 'CommentController@index');
 
-    Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::middleware('auth:sanctum')->group(function () {
         Route::post('{post}/comment', 'CommentController@store');
         Route::delete('{post}/comment/{comment}/', 'CommentController@destroy');
     });
