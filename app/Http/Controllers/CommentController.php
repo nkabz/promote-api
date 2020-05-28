@@ -31,8 +31,8 @@ class CommentController extends Controller
     public function store(StoreCommentRequest $request, Post $post): CommentResource
     {
         $user = $request->user();
-        $content = $request->get('content');
-        $coinsAmount = $request->get('coinsAmount');
+        $content = $request->input('content');
+        $coinsAmount = $request->input('coinsAmount');
 
         $this->authorize('create', [
             Comment::class, $post, $coinsAmount
