@@ -7,7 +7,7 @@ Set up and develop an API as specified.
 # Table of contents
 
 * [Checklist](https://github.com/nkabz/promote-api/issues/1)
-* [API Documentation](https://documenter.getpostman.com/view/11411942/SztD4SkP?version=latest) _You can donwload the postman collection there_
+* [API Documentation](https://documenter.getpostman.com/view/11411942/SztD4SkP?version=latest) 
 * [Setup](#setup)
 * [Requirements](#requirements)
 # Setup
@@ -66,14 +66,14 @@ But before you will need to grab the CSRF Token from the application, using the 
 /sanctum/csrf-cookie
 ```
 
-There's more info about this in the API Documentation, and a Postman collection you can download there that does this automatically! Yay!.
+There's more info about this in the API Documentation.
 
 
 Users will be authenticated by the Bearer Token, which will be returned after a successful login, then you can send requests with header ```Authorization: Bearer $token``` to access guarded routes.
 
 # Postman Collection
 
-You can download the Postman Collection [here](https://github.com/nkabz/promote-api/files/4696560/Promote-API.postman_collection.zip)
+You can download the Postman Collection [here](https://github.com/nkabz/promote-api/files/4696560/Promote-API.postman_collection.zip) or in the API Documentation
 
 # Requirements
 
