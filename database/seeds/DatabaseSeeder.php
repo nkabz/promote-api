@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -11,6 +12,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        factory('App\User')->create([
+            'name' => 'Test User',
+            'email' => 'test@test.com'
+        ]);
         factory('App\User', 15)->create();
         factory('App\Post', 15)->create();
         $this->factoryWithoutObservers('App\Comment', 300)->create();

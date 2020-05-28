@@ -21,7 +21,7 @@ Route::get('/', function () {
 Route::group(['prefix' => 'post'], function () {
     Route::get('{post}/comments', 'CommentController@index');
 
-    Route::group(['middleware' => 'auth'], function () {
+    Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('{post}/comment', 'CommentController@store');
         Route::delete('{post}/comment/{comment}/', 'CommentController@destroy');
     });
@@ -30,7 +30,9 @@ Route::group(['prefix' => 'post'], function () {
 Route::group(['prefix' => 'user'], function () {
     Route::get('{user}/comments', 'UserController@comments');
 
-    Route::group(['middleware' => 'auth'], function () {
+    Route::post('login', 'Auth\AuthController@login');
+
+    Route::middleware('auth:sanctum')->group(function () {
         Route::get('notifications', 'UserController@notifications');
         Route::post('coins', 'UserController@buyCoins');
     });
